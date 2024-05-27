@@ -1,0 +1,113 @@
+.header {
+    position: fixed;
+    display: grid;
+    grid-template-columns: auto 600px auto;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 80px;
+    padding: 0 20px;
+    background-color: #242526;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+    z-index: 5;
+
+    .title {
+        font-size: 28px;
+        color: #E7E9ED;
+    }
+
+    .logo {
+        position: relative;
+        top: 1px;
+        left: 5px;
+    }
+
+    .navigation {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        .navBox {
+            position: relative;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            &:hover,
+            &.active {
+                color: #E41444;
+                text-decoration: none;
+                border-bottom: 1px solid #E41444;
+                a {
+                    color: #E41444;
+                }
+            }
+            a {
+                text-decoration: none;
+                color: #fff;
+            }
+        }
+
+        .title {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            height: 100%;
+            width: 100%;
+            color: #E7E9ED;
+            text-decoration: none;
+            
+        }
+        .singOutBtn {
+            color: #cb2f2f;
+            &:hover,
+            &.active {
+                color: #ff0000;
+                text-decoration: underline;
+            }
+        }
+    }
+    
+    .buttonBox {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-end;
+        a {
+            text-decoration: none;
+        }
+    }
+}
+
+
+@media (max-width: 991px) {
+    .title {
+        font-size: 24px;
+    }
+    .navigation {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 15px;
+        flex-direction: column;
+    }
+    .title {
+        font-size: 18px;
+    }
+    .navigation {
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+}

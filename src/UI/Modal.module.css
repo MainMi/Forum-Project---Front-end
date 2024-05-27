@@ -1,0 +1,47 @@
+.backdrop {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    overflow-y: auto;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    /* opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; */
+}
+
+.content {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    z-index: 10;
+    top: 0;
+}
+
+.content .modal {
+    position: fixed;
+    height: auto;
+    width: 75vw;
+    height: 80vh;
+    border-radius: 20px;
+    z-index: 20;
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 10px;
+    }
+    .content .modal {
+        width: 90vw;
+    }
+}

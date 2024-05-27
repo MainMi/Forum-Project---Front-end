@@ -1,0 +1,14 @@
+.switcherBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    .button {
+        width: 40px;
+        height: 40px;
+        &.left {
+            transform: rotate(180deg);
+        }
+    }
+}

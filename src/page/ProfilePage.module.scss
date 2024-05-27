@@ -1,0 +1,51 @@
+.content {
+    position: relative;
+    gap: 25px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 250px;
+    .userInfo {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        gap: 20px;
+        background-color: #242526;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+        border-radius: 15px;
+        padding: 20px;
+        .information {
+            position: relative;
+            width: 100%;
+            display: grid;
+            align-items: center;
+            grid-template-columns: repeat(2, 1fr);
+            justify-items: center;
+            gap: 20px;
+            .infoBox {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background-color: #3b3a3c;
+                padding: 10px;
+                border-radius: 10px;
+                box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+            }
+        }
+    }
+    .topicInfo {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+}

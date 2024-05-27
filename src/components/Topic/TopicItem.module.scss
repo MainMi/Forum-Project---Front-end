@@ -1,0 +1,20 @@
+.topicItem {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #242526;
+    transition: 250ms;
+    &:hover {
+        background-color: #3b3a3c;
+    }
+    .userInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

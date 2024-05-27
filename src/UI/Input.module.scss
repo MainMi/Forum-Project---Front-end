@@ -1,0 +1,65 @@
+.labelBox {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+    position: relative;
+    width: 100%;
+
+    label {
+        font-size: 14px;
+    }
+    
+    .input {
+        display: flex;
+        width: 100%;
+        padding: 12px 15px;
+        background-color: transparent;
+        border: 1px solid #626262;
+        background-color: #323233;
+        color: #fff;
+        border-radius: 15px;
+        font-size: 14px;
+        transition: 250ms;
+        gap: 10px;
+        &:focus,
+        &:focus-visible {
+            border: 1px solid #0866FF;
+            outline: none;
+        }
+        &:active {
+            border: 1px solid #0866FF;
+        }
+        &::placeholder {
+            color: #B2B5AC;
+        }
+        &:disabled {
+            color: #A1A1A1;
+            border: 1px solid #A1A1A1;
+            
+        }
+        
+        &.error {
+            border: 1px solid #DA6264;
+            &:focus,
+            &:focus-visible {
+                border: 1px solid #E41444;
+                outline: none;
+            }
+        }
+    }
+    
+    .errorMsg {
+        font-size: 12px;
+        color: #DA6264;
+    }
+
+    img {
+        position: absolute;
+        top: 52%;
+        width: 18px;
+        height: 18px;
+        left: calc(100% - 30px);
+    }
+}
+

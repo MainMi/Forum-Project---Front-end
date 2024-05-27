@@ -1,0 +1,64 @@
+.notificationBox {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 1px;
+    z-index: 25;
+    top: 150px;
+}
+
+.modal {
+    position: fixed;
+    height: max-content;
+    width: 75vw;
+    min-width: 300px;
+    background-color: rgb(164, 164, 164);
+    border: 2px solid rgb(75, 75, 75);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    top: 95px;
+    z-index: 200;
+}
+
+.modal.error {
+    background-color: #9c4f4f;
+    color: #360101;
+}
+.modal.loading {
+    background-color: #c69823;
+    color: #362a01;
+}
+.modal.success {
+    background-color: #4f9c7c;
+    color: #013620;
+}
+
+.modal.show {
+    opacity: 0;
+    transition: 250ms;
+}
+
+.modal .content {
+    position: relative;
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    transition: 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .notificationBox {
+        top: 150px;
+    }
+    .modal {
+        top: 125px;
+    }
+} 

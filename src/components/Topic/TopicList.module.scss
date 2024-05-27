@@ -1,0 +1,14 @@
+.topicList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    gap: 10px;
+    border-radius: 15px;
+    .topicBox {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        width: 100%;
+    }
+}
