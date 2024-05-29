@@ -6,12 +6,11 @@ const useInput = (validateFn = false, nameValue, initialValue = '') => {
     const [isTouch, setIsTouch] = useState(false);
 
     const errorArrMsg = errorValidateMsg(nameValue, enteredValue);
-    
     let arrayValidate = validateFn ? validateFn(enteredValue) : [];
-    
     arrayValidate = arrayValidate.map((value) => {
         return errorArrMsg[value]
-    })
+    });
+
     const checkError = arrayValidate.length && isTouch;
 
     const valueChangeHandler = (event) => {
@@ -26,6 +25,7 @@ const useInput = (validateFn = false, nameValue, initialValue = '') => {
         setEnteredValue('');
         setIsTouch(false);
     }
+
     return {
         value: enteredValue,
         isValidInput: !(arrayValidate.length),

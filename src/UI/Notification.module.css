@@ -26,10 +26,12 @@
     background-color: #9c4f4f;
     color: #360101;
 }
+
 .modal.loading {
     background-color: #c69823;
     color: #362a01;
 }
+
 .modal.success {
     background-color: #4f9c7c;
     color: #013620;
@@ -61,4 +63,4 @@
     .modal {
         top: 125px;
     }
-} 
+}

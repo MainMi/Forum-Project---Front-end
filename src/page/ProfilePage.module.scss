@@ -8,6 +8,7 @@
     justify-content: flex-start;
     align-items: center;
     padding-top: 250px;
+
     .userInfo {
         position: relative;
         display: flex;
@@ -20,6 +21,7 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
         border-radius: 15px;
         padding: 20px;
+
         .information {
             position: relative;
             width: 100%;
@@ -28,6 +30,7 @@
             grid-template-columns: repeat(2, 1fr);
             justify-items: center;
             gap: 20px;
+
             .infoBox {
                 position: relative;
                 width: 100%;
@@ -36,9 +39,15 @@
                 padding: 10px;
                 border-radius: 10px;
                 box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+
+                .adminUsername {
+                    color: #ebeb73;
+                    font-weight: bold;
+                }
             }
         }
     }
+
     .topicInfo {
         position: relative;
         width: 100%;

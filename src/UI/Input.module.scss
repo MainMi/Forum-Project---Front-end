@@ -9,7 +9,7 @@
     label {
         font-size: 14px;
     }
-    
+
     .input {
         display: flex;
         width: 100%;
@@ -36,9 +36,8 @@
         &:disabled {
             color: #A1A1A1;
             border: 1px solid #A1A1A1;
-            
         }
-        
+
         &.error {
             border: 1px solid #DA6264;
             &:focus,
@@ -48,7 +47,7 @@
             }
         }
     }
-    
+
     .errorMsg {
         font-size: 12px;
         color: #DA6264;
@@ -62,4 +61,3 @@
         left: calc(100% - 30px);
     }
 }
-

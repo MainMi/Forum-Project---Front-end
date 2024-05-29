@@ -6,7 +6,7 @@ const NotificationOverlays = (props) => {
     const status = !props.status ? '' : classes[props.status];
     const show = props.show ? '' : classes.show;
     const className = `${classes.modal} ${status} ${show}`;
-    
+
     return <div className={className}>
             <div className={classes.content}>{props.children}</div>
     </div>

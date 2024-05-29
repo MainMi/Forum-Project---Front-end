@@ -11,16 +11,17 @@ export const fetchCurrentTopicComment = (topicId, queryData = '', notification =
                     notificationStatusState.loading
                 ));
             }
+
             let fullUrl;
             if (typeof queryData === 'object') {
                 const queryParams = new URLSearchParams(queryData).toString();
-                fullUrl = `${urlEnum.urlComment}/${topicId}?${queryParams}`;
+                fullUrl = `${urlEnum.urlComment}/${topicId}/all?${queryParams}`;
             } else if (typeof queryData === 'string') {
-                fullUrl = `${urlEnum.urlComment}/${topicId}?${queryData}`;
+                fullUrl = `${urlEnum.urlComment}/${topicId}/all?${queryData}`;
             } else {
                 throw new Error('Invalid queryData type');
             }
-            
+
             const response = await fetch(fullUrl, {
                 method: 'GET',
             });
@@ -38,7 +39,8 @@ export const fetchCurrentTopicComment = (topicId, queryData = '', notification =
             }
             if (notification) {
                 dispatch(notificationAction.changeNotification(
-                    notificationStatusState.success));
+                    notificationStatusState.success
+                ));
                 dispatch(delayHideNotification(2000));
             }
 
@@ -54,26 +56,61 @@ export const fetchCurrentTopicComment = (topicId, queryData = '', notification =
         }
     }
 };
-export const addCommentToUser = (body, topicId, comments) => async (dispatch) => {
-    const url = `${urlEnum.urlComment}/${topicId}/add`
-    const responseFn = async () => {
-        await dispatch(fetchCurrentTopicComment(topicId, {}, false));
+
+export const fetchCurrentTopicCommentAdmin = (topicId, queryData = '', notification = true) => async (dispatch) => {
+    let url;
+    if (typeof queryData === 'object') {
+        const queryParams = new URLSearchParams(queryData).toString();
+        url = `${urlEnum.urlComment}/${topicId}/all?${queryParams}`;
+    } else if (typeof queryData === 'string') {
+        url = `${urlEnum.urlComment}/${topicId}/all?${queryData}`;
+    } else {
+        throw new Error('Invalid queryData type');
     }
-    await dispatch(fetchAuth(responseFn, { url, method: 'POST', body }))
+
+    const responseFn = async (data) => {
+        const { comments, totalPages: pageSize, currentPage, topic } = data;
+        dispatch(commentAction.replaceComment({ comments, pageSize, currentPage, topic }));
+    }
+
+    await dispatch(fetchAuth(responseFn, { url }, notification, false));
 }
 
-export const editCommentToUser = (body, topicId, commentId) => async (dispatch) => {
+export const addCommentToUser = (body, topicId, isAdmin=false) => async (dispatch) => {
     const responseFn = async () => {
-        await dispatch(fetchCurrentTopicComment(topicId, {}, false));
+        if (isAdmin) {
+            await dispatch(fetchCurrentTopicCommentAdmin(topicId, { skipDeleted: false }, false));
+        } else {
+            await dispatch(fetchCurrentTopicComment(topicId, {}, false));
+        }
     }
-    const url = `${urlEnum.urlComment}/${topicId}/${commentId}`
-    await dispatch(fetchAuth(responseFn, { url, method: 'PUT', body }))
+
+    const url = `${urlEnum.urlComment}/${topicId}/add`;
+    await dispatch(fetchAuth(responseFn, { url, method: 'POST', body }, true, false));
 }
 
-export const deletedCommentToUser = (topicId, commentId) => async (dispatch) => {
+export const editCommentToUser = (body, topicId, commentId, isAdmin=false) => async (dispatch) => {
     const responseFn = async () => {
-        await dispatch(fetchCurrentTopicComment(topicId, {}, false));
+        if (isAdmin) {
+            await dispatch(fetchCurrentTopicCommentAdmin(topicId, { skipDeleted: false }, false));
+        } else {
+            await dispatch(fetchCurrentTopicComment(topicId, {}, false));
+        }
     }
-    const url = `${urlEnum.urlComment}/${topicId}/${commentId}`
-    await dispatch(fetchAuth(responseFn, { url, method: 'DELETE' }))
+
+    const url = `${urlEnum.urlComment}/${topicId}/${commentId}`;
+    await dispatch(fetchAuth(responseFn, { url, method: 'PUT', body }, true, false));
+}
+
+export const deletedCommentToUser = (topicId, commentId, isAdmin=false) => async (dispatch) => {
+    const responseFn = async () => {
+        if (isAdmin) {
+            await dispatch(fetchCurrentTopicCommentAdmin(topicId, { skipDeleted: false }, false));
+        } else {
+            await dispatch(fetchCurrentTopicComment(topicId, {}, false));
+        }
+    }
+
+    const url = `${urlEnum.urlComment}/${topicId}/${commentId}`;
+    await dispatch(fetchAuth(responseFn, { url, method: 'DELETE' }, true, false));
 }

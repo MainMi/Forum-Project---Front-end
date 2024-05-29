@@ -14,12 +14,15 @@ const Button = (props) => {
         color = '',
         ...otherStyles
     } = props;
+
     if (beforeImg) {
         beforeImg = beforeImg in buttonsImage ? buttonsImage[beforeImg] : beforeImg
     }
+
     if (afterImg) {
         afterImg = afterImg in buttonsImage ? buttonsImage[afterImg] : afterImg
     }
+
     const newClassName = `${classes.button} ${type === 'noBorder' ? classes.noBorder : ''} ${active ? classes.active : ''} ${className} ${classes[color]}`;
 
     const imgSizeStyle = { width: `${size}px`, height: `${size}px`};

@@ -1,16 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '../../UI/Button';
 import classes from './SwitchPager.module.scss';
 
 const SwitchPager = ({ currentPage, totalPages }) => {
-    const location = useLocation();
-    const url = new URL(window.location.origin + location.pathname + location.search);
-    const params = new URLSearchParams(url.search);
+    const params = new URLSearchParams(window.location.search);
 
     const createUrlWithNewPage = (newPage) => {
         const newParams = new URLSearchParams(params);
         newParams.set('currentPage', newPage);
-        return `${location.pathname}?${newParams.toString()}`;
+
+        return `${window.location.pathname}?${newParams.toString()}`;
     };
 
     const switchUrlPlus = createUrlWithNewPage(currentPage + 1);

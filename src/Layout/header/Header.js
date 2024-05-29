@@ -16,8 +16,7 @@ const Header = () => {
         if (!userToken) {
             dispatch(fetchUserInfo());
         }
-    }, []);
-
+    }, [userToken, dispatch]);
 
     const navLinkHeader = ({ isActive }) => {
         return isActive ? classes.active : undefined;
@@ -27,7 +26,6 @@ const Header = () => {
         dispatch(authAction.logOutAuth());
     };
 
-    
     return (
         <header className={classes.header}>
             <h2 className={classes.title}>
@@ -60,7 +58,7 @@ const Header = () => {
             </nav>
             <div className={classes.buttonBox}>
                 {!userInfo?.userId ? (
-                    <NavLink to="/sing">
+                    <NavLink to="/sign">
                         <Button width="max-content" padding="8px 40px">
                             Sign
                         </Button>

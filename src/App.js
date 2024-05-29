@@ -6,36 +6,32 @@ import HomePage from './page/HomePage';
 import RootLayout from './page/RootPage';
 
 import TopicPage from './page/TopicPage';
-import SingPage from './page/SingPage';
+import SignPage from './page/SignPage';
 import ProfilePage from './page/ProfilePage';
 
-
-
 function App() {
-
-  const [ cookies, setCookie ] = useCookies(['uuid-user']);
-
-  if (!cookies['uuid-user']) {
-    setCookie( 'uuid-user', nanoid() );
-  }
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <RootLayout />,
-      children: [
-        { path: '/', element: <HomePage /> },
-        { path: '/topic', element: <TopicPage /> },
-        { path: '/sing', element: <SingPage /> },
-        { path: '/profile', element: <ProfilePage /> },
-      ]
+    const [cookies, setCookie] = useCookies(['uuid-user']);
+    if (!cookies['uuid-user']) {
+        setCookie('uuid-user', nanoid());
     }
-    
-  ]);
 
-  return (
-    <RouterProvider router={router}/>
-  );
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <RootLayout />,
+            children: [
+                { path: '/', element: <HomePage /> },
+                { path: '/topic', element: <TopicPage /> },
+                { path: '/sign', element: <SignPage /> },
+                { path: '/profile', element: <ProfilePage /> },
+            ]
+        }
+
+    ]);
+
+    return (
+        <RouterProvider router={router} />
+    );
 }
 
 export default App;

@@ -2,12 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from '../components/Topic/SearchBar';
 import TopicList from '../components/Topic/TopicList';
 import classes from './TopicPage.module.scss';
-import { useEffect, useState } from 'react';
-import { fetchCurrentTopic } from '../store/actions/topic-actions';
+import { useEffect } from 'react';
+import { fetchCurrentTopic, fetchCurrentTopicAdmin } from '../store/actions/topic-actions';
 import SwitchPager from '../components/Topic/SwitchPager';
 import { useLocation } from 'react-router-dom';
 import ModalTopicInfo from '../components/Topic/Modal/ModalTopicInfo';
-import { uiAction, uiConstantIsVisible } from '../store/ui-slice';
 import TopicCreate from '../components/Topic/TopicCreate';
 import ModalTopicEdit from '../components/Topic/Modal/ModalTopicEdit';
 import ModalCommentEdit from '../components/Topic/Comment/ModalCommentEdit';
@@ -23,32 +22,36 @@ const TopicPage = () => {
     const { topics, pageSize: totalPages, currentPage } = topicsInfo;
 
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
 
-    const userInfo = useSelector((state) => state.auth.userInfo)
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    const isAdmin = userInfo?.isAdmin;
 
     useEffect(() => {
-        dispatch(fetchCurrentTopic(queryParams, false));
-    }, [dispatch, location.search, currentPage]);
+        const queryParams = new URLSearchParams(location.search);
+        if (isAdmin) {
+            queryParams.set('skipDeleted', 'false');
+            dispatch(fetchCurrentTopicAdmin(queryParams, false));
+        } else {
+            dispatch(fetchCurrentTopic(queryParams, false));
+        }
+    }, [dispatch, location.search, currentPage, isAdmin]);
 
     return (
         <div className={classes.content}>
-            <h2>Popular topic</h2>
-            <SearchBar />
+            <h2>Recent Topics</h2>
+            <SearchBar/>
             {topics.length ? <TopicList userInfo={userInfo} topics={topics} /> : <p>Not Found</p>}
             {topics.length ? (
                 <SwitchPager
                     totalPages={totalPages}
                     currentPage={currentPage}
-                    queryUrl={location.pathname + location.search}
                 />
             ) : null}
             {modalTopicInfoStatus && <ModalTopicInfo />}
-            {modalTopicEditStatus && <ModalTopicEdit />}
+            {modalTopicEditStatus && <ModalTopicEdit/>}
             {modalCommentEditStatus && <ModalCommentEdit prevModal={modalTopicInfoStatus}/>}
-            <TopicCreate />
+            {userInfo?.userId && <TopicCreate/>}
         </div>
-        
     );
 };
 

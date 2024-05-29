@@ -6,7 +6,9 @@ const initialState = {
     userToken: null,
     currentShop: ''
 }
+
 const cookies = new Cookies();
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -20,7 +22,6 @@ const authSlice = createSlice({
     },
     extraReducers: {},
 })
-
 
 export const authAction = authSlice.actions;
 

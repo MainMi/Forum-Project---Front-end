@@ -16,6 +16,7 @@ const Textarea = (props) => {
     const className = `${classes.input} ${labelClassName} ${error ? classes.error : ''}`
     const styleSize = { fontSize: `${size}px`};
     const inputSize = { ...styleSize, height: `${size + 18}px`, ...style};
+
     return <div className={classes.labelBox}>
         <label htmlFor={id} style={styleSize} className={labelClassName}>{label}</label>
         <textarea

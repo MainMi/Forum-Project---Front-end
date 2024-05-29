@@ -1,15 +1,22 @@
 import Logo from '../UI/Logo';
-import classes from './SingPage.module.scss'
+import classes from './SignPage.module.scss'
 import useInput from '../hook/useInput'
 import validateFn from '../constant/validateFn.enum';
 import { Link, useSearchParams } from 'react-router-dom';
 import { showErrorMsg } from '../error/error.validate.msg';
 import Button from '../UI/Button';
 import Input from '../UI/Input';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogin, fetchRegister } from '../store/actions/auth-actions';
 
-const SingPage = () => {
+import { useNavigate } from 'react-router-dom';
+
+const SignPage = () => {
+    const navigate = useNavigate();
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    if (userInfo?.userId) {
+        navigate('/topic');
+    }
 
     let {
         value: valuePassword,
@@ -36,13 +43,6 @@ const SingPage = () => {
     }, 'Email');
 
     let {
-        value: valueFullname,
-        isValidInput: isValidFullname,
-        arrayError: arrayErrorFullname,
-        valueChangeHandler: fullnameChangeHandler,
-        inputBlurHandler: fullnameBlurHandler,
-    } = useInput(validateFn.isNotEmptyFn, 'Fullname');
-    let {
         value: valueUsername,
         isValidInput: isValidUsername,
         arrayError: arrayErrorUsername,
@@ -50,36 +50,22 @@ const SingPage = () => {
         inputBlurHandler: usernameBlurHandler,
     } = useInput(validateFn.isNotEmptyFn, 'Username');
 
-    let {
-        value: valuePhone,
-        isValidInput: isValidPhone,
-        arrayError: arrayErrorPhone,
-        valueChangeHandler: phoneChangeHandler,
-        inputBlurHandler: phoneBlurHandler,
-    } = useInput((value) => {
-        return value.length ? validateFn.isPhoneFn(value) : []
-    }, 'Phone');
-
     const [searchParam] = useSearchParams();
-    const isLogin = searchParam.get('mode') === 'singIn';
-    const containerClass = `${classes.content} ${isLogin ? classes.singIn : ''}`;
+    const isLogin = !searchParam.get('mode') || searchParam.get('mode') === 'signIn';
+    const containerClass = `${classes.content} ${isLogin ? classes.signIn : ''}`;
 
     const loginInActive = isValidUsername && isValidPassword
-    const validPhone = valuePhone.length === 0 ? true : isValidPhone;
-    const registerInActive = loginInActive && isValidEmail && isValidUsername && validPhone && isValidFullname
+    const registerInActive = loginInActive && isValidEmail && isValidUsername
 
     const dispatch = useDispatch();
-    // TODO Replace data send, add fullname and option for login
     const registerSubmitHandler = (ev) => {
         ev.preventDefault()
         if (!registerInActive) {
             return;
         }
         dispatch(fetchRegister({
-            // fullname: valueFullname,
             username: valueUsername,
             email: valueEmail,
-            // phone: valuePhone.length ? valuePhone : undefined, 
             password: valuePassword
         }))
     }
@@ -92,8 +78,8 @@ const SingPage = () => {
     }
 
     return <div className={containerClass}>
-        <div className={classes.sing}>
-            <form className={`${classes.singForm} ${classes.singInBx}`} onSubmit={loginSubmitHandler}>
+        <div className={classes.sign}>
+            <form className={`${classes.signForm} ${classes.signInBx}`} onSubmit={loginSubmitHandler}>
                 <h2>Login</h2>
                 <Input
                     type='text'
@@ -114,18 +100,11 @@ const SingPage = () => {
                 <Button className={classes.submitBtn} disabled={!loginInActive} type='submit' padding='8px 40px'>Login</Button>
                 <div className={classes.changeTextBox}>
                     <p>You dont have account</p>
-                    <Link to={'/sing?mode=singUp'}>SingUp</Link>
+                    <Link to={'/sign?mode=signUp'}>Sign Up</Link>
                 </div>
             </form>
-            <form className={`${classes.singForm} ${classes.singUpBx}`} onSubmit={registerSubmitHandler}>
+            <form className={`${classes.signForm} ${classes.signUpBx}`} onSubmit={registerSubmitHandler}>
                 <h2>Register</h2>
-                <Input
-                    type='text'
-                    onInput={fullnameChangeHandler}
-                    onBlur={fullnameBlurHandler}
-                    label="Fullname"
-                    placeholder='Enter fullname...' />
-                {showErrorMsg(arrayErrorFullname, classes.errorMsg)}
                 <Input
                     type='text'
                     onInput={usernameChangeHandler}
@@ -143,14 +122,6 @@ const SingPage = () => {
                 />
                 {showErrorMsg(arrayErrorEmail, classes.errorMsg)}
                 <Input
-                    type='phone'
-                    onInput={phoneChangeHandler}
-                    onBlur={phoneBlurHandler}
-                    label="Phone"
-                    placeholder='Enter phone(not required)...'
-                />
-                {showErrorMsg(arrayErrorPhone, classes.errorMsg)}
-                <Input
                     type='password'
                     value={valuePassword}
                     onInput={passwordChangeHandler}
@@ -162,7 +133,7 @@ const SingPage = () => {
                 <Button className={classes.submitBtn} disabled={!registerInActive} type='submit' color='red' padding='8px 40px'>Register</Button>
                 <div className={classes.changeTextBox}>
                     <p>You already have account </p>
-                    <Link to={'/sing?mode=singIn'}>SingIn</Link>
+                    <Link to={'/sign?mode=signIn'}>Sign In</Link>
                 </div>
             </form>
             <div className={classes.imgBox}>
@@ -173,4 +144,4 @@ const SingPage = () => {
     </div>
 }
 
-export default SingPage;
+export default SignPage;

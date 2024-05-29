@@ -6,7 +6,6 @@ const uiSlice = createSlice({
         modalTopicInfo: false,
         modalTopicEdit: false,
         modalCommentEdit: false,
-
     },
     reducers: {
         toggle(state, action) {
@@ -23,7 +22,6 @@ const uiSlice = createSlice({
         },
     }
 });
-
 
 export const uiAction = uiSlice.actions;
 

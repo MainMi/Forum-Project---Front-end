@@ -22,6 +22,7 @@ const LogoWithBackground = (props) => {
         borderRadius: `${bgBorder}px`,
         ...otherProps
     }
+
     return <div className={bgClassName} style={style}>
         <LogoSvg {...logoStyle}/>
     </div>
@@ -38,9 +39,10 @@ const Logo = (props) => {
     } = props;
 
     if (autoAspect) {
-        height = width * 1.128 // auto aspect radio
+        height = width * 1.128
         props = {...props, height}
     }
+
     const logoStyle = {
         width,
         height,
@@ -51,6 +53,7 @@ const Logo = (props) => {
     if (isBg) {
         return <LogoWithBackground {...props}/>
     }
+
     return <LogoSvg {...logoStyle} />
 }
 

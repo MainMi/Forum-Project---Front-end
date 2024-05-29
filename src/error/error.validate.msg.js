@@ -8,6 +8,7 @@ const errorValidateMsg = (nameValue = '', value = 0) => {
         'phoneError': `${nameValue} is not correct phone number`
     }
 }
+
 export const showErrorMsg = (arr, className) => {
     if (arr.length === 0) {
         return
@@ -16,6 +17,5 @@ export const showErrorMsg = (arr, className) => {
         return <p className={className} key={index}>{value}</p>
     })
 }
-
 
 export default errorValidateMsg;

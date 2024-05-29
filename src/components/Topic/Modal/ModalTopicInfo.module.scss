@@ -1,22 +1,12 @@
 .modalBox {
     position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr 125px;
+    display: flex;
+    flex-direction: column;
     align-items: start;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 100%;
     height: 100%;
     gap: 20px;
-
-    .titleBox {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        background-color: #18191A;
-        padding: 10px 20px;
-        border-radius: 10px;
-    }
 
     .topicInfo {
         position: relative;
@@ -24,12 +14,21 @@
         grid-template-rows: auto 1fr auto;
         align-items: center;
         justify-items: center;
-        min-height: 100%;
         width: 100%;
         background-color: #18191A;
         padding: 10px 20px;
         border-radius: 15px;
         margin: 0 auto;
+
+        .title {
+            padding: 10px 20px;
+        }
+
+        .text {
+            width: 100%;
+            text-align: left;
+            padding-bottom: 10px;
+        }
 
         .userInfo {
             position: relative;
@@ -37,14 +36,11 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-        }
-    }
 
-    .commentList {
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 20px;
-        width: 100%;
+            .adminUsername {
+                color: #ebeb73;
+                font-weight: bold;
+            }
+        }
     }
 }

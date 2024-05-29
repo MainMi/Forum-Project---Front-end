@@ -9,13 +9,26 @@
     padding: 10px 20px;
     border-radius: 10px;
     gap: 10px;
+
     .userInfo {
         position: relative;
         display: flex;
         width: 100%;
         justify-content: space-between;
         align-items: center;
+
+        .adminUsername {
+            color: #ebeb73;
+            font-weight: bold;
+        }
     }
+
+    .text {
+        width: 100%;
+        text-align: left;
+        padding-bottom: 5px;
+    }
+
     .buttonBox {
         display: flex;
         gap: 10px;
@@ -26,4 +39,8 @@
             display: none;
         }
     }
+}
+
+.commentItem.commentDeleted {
+    background-color: #943b3b;
 }

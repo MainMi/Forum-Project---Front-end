@@ -12,9 +12,23 @@
     &:hover {
         background-color: #3b3a3c;
     }
+
     .userInfo {
         display: flex;
         flex-direction: column;
+        text-align: right;
         gap: 10px;
+
+        .adminUsername {
+            color: #ebeb73;
+            font-weight: bold;
+        }
+    }
+}
+
+.topicItem.topicDeleted {
+    background-color: #943b3b;
+    &:hover {
+        background-color: #ad6363;
     }
 }

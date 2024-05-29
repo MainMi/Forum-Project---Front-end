@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../../UI/Button';
 import Textarea from '../../../UI/Textarea';
 import validateFn from '../../../constant/validateFn.enum';
@@ -7,27 +7,26 @@ import classes from './CommentCreate.module.scss'
 import { addCommentToUser } from '../../../store/actions/comment-actions';
 
 const CommentCreate = ({ currentTopic, comments }) => {
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    const isAdmin = userInfo?.isAdmin;
 
     let {
         value: valueDescription,
         isValidInput: isValidDescription,
-        arrayError: arrayErrorDescription,
         valueChangeHandler: descriptionChangeHandler,
         inputBlurHandler: descriptionBlurHandler,
         resetFn: resetDescription
     } = useInput(validateFn.isNotEmptyFn, 'Description');
 
     const dispatch = useDispatch();
-
     const isSubmit = isValidDescription;
-
     const submitHandler = (ev) => {
         ev.preventDefault();
         if (isSubmit) {
             dispatch(addCommentToUser({
                 text: valueDescription
-            }, currentTopic, comments))
-            resetDescription()
+            }, currentTopic, isAdmin));
+            resetDescription();
         }
     }
 

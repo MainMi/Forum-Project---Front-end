@@ -1,4 +1,4 @@
-const api = 'http://localhost:5000/api'
+import { REACT_APP_API_URL as api } from '../config/config';
 
 const urlEnum = {
     api,

@@ -4,44 +4,73 @@ import CommentList from '../Comment/CommentList';
 import classes from './ModalTopicInfo.module.scss'
 import { uiAction, uiConstantIsVisible } from '../../../store/ui-slice';
 import { useEffect } from 'react';
-import { fetchCurrentTopicComment } from '../../../store/actions/comment-actions';
+import { fetchCurrentTopicComment, fetchCurrentTopicCommentAdmin } from '../../../store/actions/comment-actions';
 import { formatDate } from '../../../helper/dateHelper';
 import CommentCreate from '../Comment/CommentCreate';
+import IconPopup from '../../../UI/IconPopup';
 
 const ModalTopicInfo = () => {
-    const currentTopic = useSelector((state) => state.topic.currentTopic)
+    const currentTopic = useSelector((state) => state.topic.currentTopic);
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    const isAdmin = userInfo?.isAdmin;
+
     const dispath = useDispatch();
     const isVisibleModal = () => dispath(uiAction.toggle(
         uiConstantIsVisible.modalTopicInfo
     ));
+
     useEffect(() => {
         if (currentTopic) {
-            dispath(fetchCurrentTopicComment(currentTopic, '', false))
+            if (isAdmin) {
+                dispath(fetchCurrentTopicCommentAdmin(currentTopic, { skipDeleted: false }, false))
+            } else {
+                dispath(fetchCurrentTopicComment(currentTopic, '', false))
+            }
         }
-    }, [dispath, currentTopic])
-    
+    }, [dispath, currentTopic, isAdmin])
+
     const {
         topic: topicInfo = {},
         comments = [],
-    } = useSelector((state) => (state.comment))
+    } = useSelector((state) => (state.comment));
 
-    const { title = '', createdAt = '', username = '', text = '' } = topicInfo;
+    const { title = '', createdAt = '', text = '', updatedAt, createdByUser, editedByUser, deletedByUser } = topicInfo;
 
     return <Modal onHiddenCart={isVisibleModal}>
         <div className={classes.modalBox}>
-            <div className={classes.titleBox}>
-                <h2>{title}</h2>
-            </div>
             <div className={classes.topicInfo}>
-                <h2>Topic info</h2>
-                <p>{text}</p>
+                <h2 className={classes.title}>{title}</h2>
+                <p className={classes.text}>{text}</p>
                 <div className={classes.userInfo}>
-                    <p>{username}</p>
-                    <p>{formatDate(createdAt)}</p>
+                    <p className={ createdByUser?.isAdmin && classes.adminUsername }>
+                        {createdByUser?.username}</p>
+                    <p>
+                        { editedByUser && !deletedByUser && <IconPopup
+                                image={editedByUser.isAdmin ? 'editAdmin' : 'edit' }
+                                tooltipStyles={{ width: '150px' }}
+                                marginRight='4px'
+                            >
+                                <p className={editedByUser.isAdmin && classes.adminUsername}>
+                                    {editedByUser.username}
+                                </p>
+                                <p>{formatDate(updatedAt)}</p>
+                            </IconPopup> }
+                        { deletedByUser && <IconPopup
+                                image={deletedByUser.isAdmin ? 'trashAdmin' : 'trash' }
+                                tooltipStyles={{ width: '150px' }}
+                                marginRight='4px'
+                            >
+                                <p className={deletedByUser.isAdmin && classes.adminUsername}>
+                                    {deletedByUser.username}
+                                </p>
+                                <p>{formatDate(updatedAt)}</p>
+                            </IconPopup> }
+                        {formatDate(createdAt)}
+                    </p>
                 </div>
             </div>
-            {!!comments.length && <CommentList comments={comments}/>}
-            <CommentCreate currentTopic={currentTopic} comments={comments}/>
+            { !!comments.length && <CommentList comments={comments}/> }
+            { userInfo?.userId && !deletedByUser && <CommentCreate currentTopic={currentTopic} comments={comments}/> }
         </div>
     </Modal>
 }

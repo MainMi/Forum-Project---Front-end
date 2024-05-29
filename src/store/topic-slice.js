@@ -1,5 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
-
+import { createSlice } from '@reduxjs/toolkit';
 
 const topicSlice = createSlice({
     name: 'topic',
@@ -13,6 +12,7 @@ const topicSlice = createSlice({
         replaceTopic: (state, action) => ({ ...state, ...action.payload })
     }
 });
+
 export const topicAction = topicSlice.actions;
 
 export default topicSlice.reducer;

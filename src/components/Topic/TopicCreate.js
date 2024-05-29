@@ -8,11 +8,9 @@ import classes from './TopicCreate.module.scss'
 import { addTopicToUser } from '../../store/actions/topic-actions';
 
 const TopicCreate = () => {
-
     let {
         value: valueTopic,
         isValidInput: isValidTopic,
-        arrayError: arrayErrorTopic,
         valueChangeHandler: topicChangeHandler,
         inputBlurHandler: topicBlurHandler,
         resetFn: resetTopic
@@ -21,26 +19,23 @@ const TopicCreate = () => {
     let {
         value: valueDescription,
         isValidInput: isValidDescription,
-        arrayError: arrayErrorDescription,
         valueChangeHandler: descriptionChangeHandler,
         inputBlurHandler: descriptionBlurHandler,
         resetFn: resetDescription
     } = useInput(validateFn.isNotEmptyFn, 'Description');
 
     const dispatch = useDispatch();
-
     const isSubmit = isValidDescription & isValidTopic;
-
-    const currentPage = useSelector((state) => state.topic.currentPage)
-    
+    const currentPage = useSelector((state) => state.topic.currentPage);
+    const userInfo = useSelector((state) => state.auth.userInfo);
 
     const submitHandler = (ev) => {
         ev.preventDefault();
         if (isSubmit) {
             dispatch(addTopicToUser({
                 title: valueTopic,
-                text: valueDescription
-            }, currentPage))
+                text: valueDescription,
+            }, currentPage, userInfo?.isAdmin));
             resetTopic();
             resetDescription();
         }

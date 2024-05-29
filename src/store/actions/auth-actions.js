@@ -4,7 +4,8 @@ import urlEnum from "../../constant/urlEnum"
 import Cookies from 'universal-cookie'
 
 const cookies = new Cookies();
-export const fetchAuth = (responseFn, responseArgm, notification = true) =>
+
+export const fetchAuth = (responseFn, responseArgm, notification = true, showMessage = true) =>
     async (dispatch) => {
         const authToken = cookies.get('Access');
         if (!authToken || !authToken.length) {
@@ -64,7 +65,7 @@ export const fetchAuth = (responseFn, responseArgm, notification = true) =>
                     notificationAction.changeNotification(
                         {
                             ...notificationStatusState.success,
-                            message: responseData
+                            message: showMessage ? responseData.toString() : ''
                         }
                     )
                 );
@@ -73,7 +74,7 @@ export const fetchAuth = (responseFn, responseArgm, notification = true) =>
             responseFn(responseData, dispatch);
 
         } catch (e) {
-            console.log( e);
+            console.log(e);
             dispatch(notificationAction.changeNotification({
                 ...notificationStatusState.error,
                 message: e.message
@@ -95,16 +96,19 @@ async function refreshAuthToken(headers) {
     if (!refreshResponse) {
         return null;
     }
-    const refreshData = await refreshResponse.json();
 
+    const refreshData = await refreshResponse.json();
     if (refreshData.errorStatus) {
         return null;
     }
+
     const { accessToken, refreshToken: refresh_token } = refreshData.tokenPair;
     cookies.set('Access', accessToken);
     cookies.set('Refresh', refresh_token);
+
     return refreshData;
 }
+
 export const fetchRegister = (body) => {
     return async (dispatch) => {
         try {
@@ -114,10 +118,11 @@ export const fetchRegister = (body) => {
                 headers: { 'Content-Type': 'application/json' },
                 body
             });
+
             if (!response?.status) {
                 throw new Error('Could not fetch data');
             }
-            
+
             const data = await response.json();
             if (data.status >= 400 && data.status < 600) {
                 dispatch(notificationAction.changeNotification({
@@ -127,8 +132,8 @@ export const fetchRegister = (body) => {
                 dispatch(delayHideNotification(4000));
                 return;
             }
-            const { user, tokenPair: { accessToken, refreshToken } } = data;
 
+            const { user, tokenPair: { accessToken, refreshToken } } = data;
             dispatch(authAction.updateAuth({
                 userInfo: { ...user, password: undefined },
                 userToken: accessToken
@@ -138,11 +143,9 @@ export const fetchRegister = (body) => {
             cookies.set('Refresh', refreshToken);
 
             dispatch(
-                notificationAction.changeNotification(notificationStatusState.success
-                    ));
+                notificationAction.changeNotification(notificationStatusState.success)
+            );
             dispatch(delayHideNotification(2000));
-
-            
         } catch (e) {
             dispatch(notificationAction.changeNotification({
                 ...notificationStatusState.error,
@@ -151,6 +154,7 @@ export const fetchRegister = (body) => {
         }
     }
 }
+
 export const fetchLogin = (body) => {
     return async (dispatch) => {
         try {
@@ -160,10 +164,11 @@ export const fetchLogin = (body) => {
                 headers: { 'Content-Type': 'application/json' },
                 body
             });
+
             if (!response?.status) {
                 throw new Error('Could not fetch data');
             }
-            
+
             const data = await response.json();
             if (data.status >= 400 && data.status < 600) {
                 dispatch(notificationAction.changeNotification({
@@ -173,13 +178,11 @@ export const fetchLogin = (body) => {
                 dispatch(delayHideNotification(4000));
                 return;
             }
+
             dispatch(notificationAction.changeNotification(notificationStatusState.success));
             dispatch(delayHideNotification(2000));
 
-            console.log(data);
-
             const { user, tokenPair: { accessToken, refreshToken } } = data;
-            
             dispatch(authAction.updateAuth({
                 userInfo: { ...user, password: undefined },
                 userToken: accessToken
@@ -187,7 +190,6 @@ export const fetchLogin = (body) => {
 
             cookies.set('Access', accessToken);
             cookies.set('Refresh', refreshToken);
-
         } catch (e) {
             dispatch(notificationAction.changeNotification({
                 ...notificationStatusState.error,

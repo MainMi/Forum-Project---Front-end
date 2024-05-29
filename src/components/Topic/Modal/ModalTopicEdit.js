@@ -10,22 +10,22 @@ import Button from '../../../UI/Button';
 import { uiAction, uiConstantIsVisible } from '../../../store/ui-slice';
 
 const ModalTopicEdit = () => {
-    const currentTopic = useSelector((state) => state.topic.currentTopic)
-    const topics = useSelector((state) => state.topic.topics)
+    const currentTopic = useSelector((state) => state.topic.currentTopic);
+    const topics = useSelector((state) => state.topic.topics);
+    const userInfo = useSelector((state) => state.auth.userInfo);
+
     let currentTopicInfo = null;
     for (let i = 0; i < topics.length; i++) {
         if (topics[i].topicId === currentTopic) {
             currentTopicInfo = topics[i];
         }
-        
     }
 
     const { title, text: description } = currentTopicInfo;
-    console.log(currentTopicInfo);
+
     let {
         value: valueTopic,
         isValidInput: isValidTopic,
-        arrayError: arrayErrorTopic,
         valueChangeHandler: topicChangeHandler,
         inputBlurHandler: topicBlurHandler,
     } = useInput(validateFn.isNotEmptyFn, 'Topic', title);
@@ -33,16 +33,13 @@ const ModalTopicEdit = () => {
     let {
         value: valueDescription,
         isValidInput: isValidDescription,
-        arrayError: arrayErrorDescription,
         valueChangeHandler: descriptionChangeHandler,
         inputBlurHandler: descriptionBlurHandler,
     } = useInput(validateFn.isNotEmptyFn, 'Description', description);
 
     const dispatch = useDispatch();
-
     const isSubmit = isValidDescription & isValidTopic;
-
-    const currentPage = useSelector((state) => state.topic.currentPage)
+    const currentPage = useSelector((state) => state.topic.currentPage);
 
     const submitHandler = (ev) => {
         ev.preventDefault();
@@ -50,13 +47,13 @@ const ModalTopicEdit = () => {
             dispatch(editTopicToUser({
                 title: valueTopic,
                 text: valueDescription
-            }, currentTopic, currentPage))
+            }, currentTopic, currentPage, userInfo?.isAdmin));
             hiddenModal();
         }
     }
 
     const hiddenModal = () => {
-        dispatch(uiAction.disabled(uiConstantIsVisible.modalTopicEdit))
+        dispatch(uiAction.disabled(uiConstantIsVisible.modalTopicEdit));
     }
 
     return <Modal onHiddenCart={hiddenModal}>

@@ -1,7 +1,7 @@
 .commentList {
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: center;
     align-items: center;

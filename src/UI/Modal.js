@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import classes from './Modal.module.css';
 import ReactDOM from 'react-dom'
 
@@ -11,7 +10,9 @@ const ModalOverlays = (props) => {
             {props.children}
         </div>
 }
+
 const overlays = document.getElementById('overlays');
+
 const Modal = (props) => {
     return <>
         {ReactDOM.createPortal(<div className={classes.content}>
@@ -19,6 +20,6 @@ const Modal = (props) => {
             <Backdrop onHiddenCart={props.onHiddenCart}/>
         </div>, overlays)}
     </>
-        
 }
+
 export default Modal;

@@ -12,5 +12,5 @@ body {
   padding: 0;
   background-color: #18191A;
   color: #E7E9ED;
+  overflow-x: hidden;
 }
-

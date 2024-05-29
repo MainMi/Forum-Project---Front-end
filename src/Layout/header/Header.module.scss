@@ -65,7 +65,7 @@
             text-decoration: none;
             
         }
-        .singOutBtn {
+        .signOutBtn {
             color: #cb2f2f;
             &:hover,
             &.active {
@@ -74,7 +74,7 @@
             }
         }
     }
-    
+
     .buttonBox {
         display: flex;
         gap: 10px;

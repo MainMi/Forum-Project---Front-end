@@ -6,31 +6,26 @@ import { topicAction } from '../../store/topic-slice';
 import { uiAction, uiConstantIsVisible } from '../../store/ui-slice';
 
 const DecideButtonBox = ({ indexTopic }) => {
-
-    const currentPage = useSelector((state) => state.topic.currentPage)
+    const currentPage = useSelector((state) => state.topic.currentPage);
+    const userInfo = useSelector((state) => state.auth.userInfo);
 
     const dispatch = useDispatch();
-    
 
     const deleteTopic = () => {
-        dispatch(deletedTopicToUser(indexTopic, currentPage))
-    }
-
-    const selectTopic = () => {
-        dispatch(topicAction.replaceTopic({ currentTopic: indexTopic }))
-        dispatch(uiAction.enable(uiConstantIsVisible.modalTopicInfo))
+        const confirmDelete = window.confirm("Are you sure you want to delete this topic?");
+        if (confirmDelete) {
+            dispatch(deletedTopicToUser(indexTopic, currentPage, userInfo?.isAdmin));
+        }
     }
 
     const editTopic = () => {
-        dispatch(topicAction.replaceTopic({ currentTopic: indexTopic }))
-        dispatch(uiAction.enable(uiConstantIsVisible.modalTopicEdit))
+        dispatch(topicAction.replaceTopic({ currentTopic: indexTopic }));
+        dispatch(uiAction.enable(uiConstantIsVisible.modalTopicEdit));
     }
 
     return <div className={classes.decideButtonBox}>
-        <Button className={classes.button} beforeImg='search' onClick={selectTopic}></Button>
         <Button className={classes.button} beforeImg='trash' onClick={deleteTopic}></Button>
         <Button className={classes.button} beforeImg='edit' onClick={editTopic}></Button>
-        <Button className={classes.button} beforeImg='people'></Button>
     </div>
 }
 

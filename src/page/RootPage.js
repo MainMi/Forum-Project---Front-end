@@ -3,7 +3,6 @@ import Header from '../Layout/header/Header';
 import NotificationStatus from "../components/root/Notification/Notification-status";
 
 const RootLayout = () => {
-
     return (
         <>
             <NotificationStatus />

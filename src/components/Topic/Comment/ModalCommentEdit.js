@@ -9,9 +9,11 @@ import Textarea from '../../../UI/Textarea';
 import Button from '../../../UI/Button';
 
 const ModalCommentEdit = () => {
-    const currentComment = useSelector((state) => state.comment.currentComment)
-    const comments = useSelector((state) => state.comment.comments)
-    console.log(comments, currentComment);
+    const currentComment = useSelector((state) => state.comment.currentComment);
+    const comments = useSelector((state) => state.comment.comments);
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    const isAdmin = userInfo?.isAdmin;
+
     let currentCommentInfo = {};
     for (let i = 0; i < comments.length; i++) {
         if (comments[i].commentId === currentComment) {
@@ -24,23 +26,23 @@ const ModalCommentEdit = () => {
     let {
         value: valueDescription,
         isValidInput: isValidDescription,
-        arrayError: arrayErrorDescription,
         valueChangeHandler: descriptionChangeHandler,
         inputBlurHandler: descriptionBlurHandler,
     } = useInput(validateFn.isNotEmptyFn, 'Description', description);
 
     const dispatch = useDispatch();
-
     const isSubmit = isValidDescription;
-
     const currentTopic = useSelector((state) => state.topic.currentTopic)
 
     const submitHandler = (ev) => {
         ev.preventDefault();
         if (isSubmit) {
-            dispatch(editCommentToUser({
-                text: valueDescription
-            }, currentTopic, currentComment))
+            dispatch(editCommentToUser(
+                { text: valueDescription },
+                currentTopic,
+                currentComment,
+                isAdmin
+            ));
             hiddenModal();
         }
     }
@@ -53,7 +55,13 @@ const ModalCommentEdit = () => {
         <div className={classes.content}>
             <form className={classes.createForm} onSubmit={submitHandler}>
                 <h2>Edit Comment</h2>
-                <Textarea label='Description' onChange={descriptionChangeHandler} onBlur={descriptionBlurHandler} value={valueDescription}></Textarea>
+                <Textarea
+                    label='Description'
+                    onChange={descriptionChangeHandler}
+                    onBlur={descriptionBlurHandler}
+                    value={valueDescription}
+                    style={{ resize: 'vertical', height: '300px' }}
+                ></Textarea>
                 <div className={classes.buttonBox}>
                     <Button padding='8px 30px' color="red" onClick={hiddenModal}>Cancel</Button>
                     <Button padding='8px 30px' disabled={!isSubmit}>Edit</Button>

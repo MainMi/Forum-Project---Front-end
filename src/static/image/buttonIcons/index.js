@@ -5,6 +5,7 @@ import chevron from './chevronIcon.svg'
 import chevronGreen from './chevronIcon-green.svg'
 import chevronPink from './chevronIcon-pink.svg'
 import edit from './editIcon.svg'
+import editAdmin from './editIconAdmin.svg'
 import lockClose from './lockCloseIcon.svg'
 import lockClosePink from './lockCloseIcon-pink.svg'
 import lockOpen from './lockOpenIcon.svg'
@@ -13,6 +14,7 @@ import peopleGreen from './peopleIcon-green.svg'
 import people from './peopleIcon.svg'
 import plus from './plusIcon.svg'
 import trash from './trashIcon.svg'
+import trashAdmin from './trashIconAdmin.svg'
 import search from './searchIcon.svg'
 
 
@@ -25,6 +27,7 @@ const buttonsImages = {
     'chevron-green': chevronGreen,
     'chevron-pink': chevronPink,
     edit,
+    editAdmin,
     lockClose,
     'LockClose-pink': lockClosePink,
     lockOpen,
@@ -33,7 +36,8 @@ const buttonsImages = {
     'people-green': peopleGreen,
     search,
     plus,
-    trash
+    trash,
+    trashAdmin
 }
 
 export default buttonsImages;

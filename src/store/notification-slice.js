@@ -1,6 +1,5 @@
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
-
 const notificationSlice = createSlice({
     name: 'notification',
     initialState: {
