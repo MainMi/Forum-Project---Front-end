@@ -7,7 +7,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 250px 200px 0 200px;
+    padding: 150px 200px 0 200px;
+
     .description {
         position: relative;
         display: flex;
@@ -16,10 +17,12 @@
         gap: 15px;
         background-color: #242526;
         border-radius: 15px;
+
         .lastTitle {
             align-self: flex-end;
         }
     }
+
     .userInfoBox {
         position: relative;
         width: 100%;
@@ -29,6 +32,8 @@
         justify-content: center;
         align-items: center;
         gap: 25px;
+        padding-bottom: 20px;
+
         .userInfo {
             position: relative;
             display: flex;
@@ -38,6 +43,7 @@
             border-radius: 15px;
             padding: 20px;
             align-items: center;
+
             .avatarImg {
                 position: relative;
                 width: 100px;
@@ -45,6 +51,7 @@
                 border-radius: 10px;
             }
         }
+
         .roleBox {
             display: flex;
             flex-direction: column;
