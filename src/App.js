@@ -16,6 +16,8 @@ function App() {
         setCookie('uuid-user', nanoid());
     }
 
+    document.title = 'Forum';
+
     const router = createBrowserRouter([
         {
             path: '/',
